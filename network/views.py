@@ -29,9 +29,7 @@ def index(request):
             user_id=request.user.id
         )
     ))
-    print(f"Here --- >>> {posts}")
     posts_json = Post.objects.all().values()
-    print(f"There --- >>> {posts_json}")
     # posts_likes = posts.annotate(liked=post.likes.filter(id=user.id).exists())
 
     paginator = Paginator(posts, 10)
@@ -102,19 +100,10 @@ def all_posts(request):
     list_posts = paginator.get_page(page_number)
 
     # print(posts)
-    print(f"Here --- >>> {posts}")
-    print(" ----- 1 -------------- ")
     posts_json = Post.objects.all().values()
-    print(posts_json)
-    print(" ------ 2 ------------ ")
     posts_serialize = [post.serialize() for post in posts]
-    print(posts_serialize)
-    print(" ------ 3 ------------ ")
     users = User.objects.all()
-    print(users)
-    print(" ------ 4 ------------ ")
     users_json = User.objects.all().values()
-    print(users_json)
 
     return render(request, "network/all_posts.html", {
         "posts": list_posts,
@@ -165,13 +154,6 @@ def following(request):
     paginator = Paginator(posts, 10)
     page_number = request.GET.get("page")
     list_posts = paginator.get_page(page_number)
-    # print(f"SOY user ----- >>> {user}")
-    # user_following = user.following.all()
-    # print(f"SOY user_following ----- >>> {user_following}")
-    # posts = Post.objects.all().order_by("-timestamp")
-    # print(f"SOY posts ----- >>> {posts}")
-    # posts1 = user.posts.all().order_by("-timestamp")
-    # posts = user_following.posts.all().order_by("-timestamp")
 
     return render(request, "network/following.html", {
         "posts": list_posts,
